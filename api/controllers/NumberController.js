@@ -10,7 +10,7 @@ module.exports = {
   
     format: async function (req, res) {
         var formatter = req.body;
-
+        console.log(formatter);
         if (typeof module.exports[formatter.type] !== 'function') return res.badRequest();
         var response =  module.exports[formatter.type](formatter.data);
         

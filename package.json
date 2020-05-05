@@ -9,6 +9,7 @@
     "awesome-phonenumber": "^2.31.0",
     "hot-formula-parser": "^3.0.2",
     "moment": "^2.24.0",
+    "moment-timezone": "^0.5.28",
     "number-format.js": "^2.0.9",
     "pluralize": "^8.0.0",
     "remarkable": "^2.0.0",

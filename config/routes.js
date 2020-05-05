@@ -12,5 +12,5 @@ module.exports.routes = {
 
     'POST /string': 'StringController.format',
     'POST /number': 'NumberController.format',
-    'POST /date': 'StringController.format'
+    'POST /date': 'DateController.format'
 };

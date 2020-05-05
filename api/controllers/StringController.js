@@ -9,7 +9,7 @@ module.exports = {
   
     format: async function (req, res) {
         var formatter = req.body;
-        console.log(typeof formatter)
+        console.log(formatter)
         if (typeof module.exports[formatter.type] !== 'function') return res.badRequest();
         var response =  module.exports[formatter.type](formatter.data);
         
@@ -364,25 +364,5 @@ module.exports = {
         return data.text.toUpperCase();
     },
 
-     /**
-     * dateOperation is used to Manipulate a date and/or time by adding/subtracting days, months, years, hours, minutes, seconds..
-     * @date date *Required Date you would like to manipulate..
-     * @string expression *Required Provide the amount of time you would like to add or subtract to the date (negative values subtract time). Examples: +8 hours 1 minute, +1 month -2 days, -1 day +8 hours..
-     * @string toFormat *Required Provide the format that the date should be converted to..
-     * @string fromFormat *Optional to denote the decimal.
-     * 
-     */
-
-    dateOperation(data) {
-        var valid = module.exports.validate(data, ['date', 'expression', 'toFormat']);
-        if(!valid.status) return valid;
-        data = module.exports.optional(data, ['fromFormat'], ['']);
-
-        var strtotime = require("strtotime");//https://www.npmjs.com/package/strtotime
-        var moment = require("moment");//https://www.npmjs.com/package/moment
-
-        var time = moment(strtotime(data.expression, strtotime(data.date)));
-        return time.format(data.toFormat);
-    }
 };
 
