@@ -228,7 +228,10 @@ module.exports = {
         var valid = module.exports.validate(data, ['text', 'from', 'to']);
         if(!valid.status) return valid;
 
-        return data.text.replace(data.from, data.to);
+        // return data.text.replace(data.from, data.to);
+        var regex = data.from.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+        // "["+data.from+"]"
+        return data.text.replace(new RegExp(regex, 'g'), data.to);
     },
 
     /**
