@@ -84,11 +84,33 @@ module.exports = {
         data = module.exports.optional(data, ['fromZone', 'toZone'], ['UTC', 'UTC']);
 
         var moment = require('moment-timezone');//https://www.npmjs.com/package/moment-timezone
-
+        var server_offset = false;
+        
+        if(!isNaN(data.date)) {
+            var epoch = parseInt(data.date);
+            server_offset = 330;
+            var outputtext = notices = '';
+            if ((epoch >= 1E16) || (epoch <= -1E16)) {
+                outputtext += "Assuming that this timestamp is in nanoseconds (1 billionth of a second)";
+                epoch = Math.floor(epoch / 1000000);
+            } else if ((epoch >= 1E14) || (epoch <= -1E14)) {
+                outputtext += "Assuming that this timestamp is in microseconds (1/1,000,000 second)";
+                epoch = Math.floor(epoch / 1000);
+            } else if ((epoch >= 1E11) || (epoch <= -3E10)) {
+                outputtext += "Assuming that this timestamp is in milliseconds";
+            } else {
+                outputtext += "Assuming that this timestamp is in seconds";
+                if ((epoch > 1E11) || (epoch < -1E10)) {
+                    notices += "Remove the last 3 digits if you are trying to convert milliseconds.";
+                }
+                epoch = (epoch * 1000);
+            }
+            data.date = epoch;
+        }
          // first convert usere datetime (date) of form_zone to server datetime
          var in_server_date = new Date(data.date); // date in server_zone
  
-         var server_offset = moment(in_server_date).utcOffset(); // take the server_offset
+         if(server_offset == false) server_offset = moment(in_server_date).utcOffset(); // take the server_offset
  
          var fromZone_off_set = moment(in_server_date).tz(data.fromZone).utcOffset(); // now take the offset from fromZone
          
