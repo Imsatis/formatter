@@ -256,6 +256,33 @@ module.exports = {
         return splited;
     },
 
+    /**
+     * splitter string by given before or after seprator..
+     * @string text *Required for split..
+     * @string before separator for seprate a string..
+     * @string after separator for seprate a string..
+     * 
+     */
+
+    splitter(data) {
+ 
+        var valid = module.exports.validate(data, ['text']);
+        if(!valid.status) return valid;
+
+        data = module.exports.optional(data, ['before', 'after'], ["", ""]);
+        var parsed = data.text;
+
+        if(data.after !== "") {
+            parsed = parsed.split(data.after).pop().trim();
+        }
+        
+        if(data.before !== "") {
+            parsed = parsed.split(data.before)[0].trim();
+        }
+
+        return parsed;
+    },
+
 
     /**
      * titleCase convert string to title case..
