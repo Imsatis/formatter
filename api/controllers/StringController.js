@@ -264,6 +264,28 @@ module.exports = {
      * 
      */
 
+    // splitter(data) {
+ 
+    //     var valid = module.exports.validate(data, ['text']);
+    //     if(!valid.status) return valid;
+
+    //     data = module.exports.optional(data, ['before', 'after'], ["", ""]);
+    //     var parsed = data.text;
+    //     var re = {};
+
+    //     if(data.after !== "") {
+    //         re = new RegExp(data.after)
+    //         console.log(parsed.split(/TEXT/i))
+    //         parsed = parsed.split(/text/).pop().trim();
+    //     }
+    
+    //     if(data.before !== "") {
+    //         parsed = parsed.split(data.before)[0].trim();
+    //     }
+
+    //     return parsed;
+    // },
+
     splitter(data) {
  
         var valid = module.exports.validate(data, ['text']);
@@ -271,16 +293,18 @@ module.exports = {
 
         data = module.exports.optional(data, ['before', 'after'], ["", ""]);
         var parsed = data.text;
-
-        if(data.after !== "") {
-            parsed = parsed.split(data.after).pop().trim();
-        }
         
+        if(data.after !== "") {
+            var start = parsed.indexOf(data.after) != -1 ? parsed.indexOf(data.after) + data.after.length : 0;
+            parsed = parsed.substring(start , parsed.length);
+        }
+    
         if(data.before !== "") {
-            parsed = parsed.split(data.before)[0].trim();
+            var end = parsed.indexOf(data.before) != -1 ? parsed.indexOf(data.before) : parsed.length;
+            parsed = parsed.substring(0 , end);
         }
 
-        return parsed;
+        return parsed.trim();
     },
 
 
