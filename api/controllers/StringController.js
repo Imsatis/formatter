@@ -7,10 +7,6 @@
 
 module.exports = {
 
-    sleep: function (ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-      },
-  
     format: async function (req, res) {
         const performance = require('perf_hooks').performance;
         var a = performance.now();
@@ -23,8 +19,9 @@ module.exports = {
         var b = performance.now();
 
         formatter.result = response;
-        formatter.referer = req.headers.referer;
+        formatter.UA = req.get('User-Agent');
         formatter.time = 'Execution time ' + (b - a) / 1000.0 + ' S.';
+        formatter.date = new Date();
         console.log(formatter);
         return res.send({type: formatter.type, result: response});
     },
