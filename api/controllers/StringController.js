@@ -6,13 +6,26 @@
  */
 
 module.exports = {
+
+    sleep: function (ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+      },
   
     format: async function (req, res) {
+        const performance = require('perf_hooks').performance;
+        var a = performance.now();
+
         var formatter = req.body;
-        console.log(formatter)
+        
         if (typeof module.exports[formatter.type] !== 'function') return res.badRequest();
         var response =  module.exports[formatter.type](formatter.data);
-        
+
+        var b = performance.now();
+
+        formatter.result = response;
+        formatter.referer = req.headers.referer;
+        formatter.time = 'Execution time ' + (b - a) / 1000.0 + ' S.';
+        console.log(formatter);
         return res.send({type: formatter.type, result: response});
     },
 
@@ -70,7 +83,7 @@ module.exports = {
      * markToHTML is used to replace special character to HTML tag.
      *  @string text *Required to mark..
      */
-    markToHTML: function (data) {
+    markToHTML: function (data) {   
         //https://ourcodeworld.com/articles/read/396/how-to-convert-markdown-to-html-in-javascript-using-remarkable
 
         var {Remarkable} = require('remarkable');
