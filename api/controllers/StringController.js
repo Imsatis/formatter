@@ -22,7 +22,7 @@ module.exports = {
         formatter.UA = req.get('User-Agent');
         formatter.time = 'Execution time ' + (b - a) / 1000.0 + ' S.';
         formatter.date = new Date();
-        console.log(formatter);
+        // console.log(formatter);
         return res.send({type: formatter.type, result: response});
     },
 
