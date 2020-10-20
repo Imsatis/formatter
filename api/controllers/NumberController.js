@@ -201,6 +201,22 @@ module.exports = {
         if(!valid.status) return valid;
 
         var parser = new FormulaParser();
+        //Intialize boolean variables
+        parser.setVariable('true', true);
+        parser.setVariable('false', false);
+        
+        /** IFS Custom Function Added example: IFS('John' = '1John', 'Hello!', false, 'Goodbye!', true, IFS(false, 'Bye', true, 'It Works!'))*/
+
+        parser.setFunction('IFS', function(params) {
+            var val = '#N/A';
+            for(var i = 0; i < params.length; i += 2) if(params[i]) {
+                val = params[i+1];
+                break;
+            }
+            return val;
+        });
+
+        /**IFS End */
         
         var response = parser.parse(data.formula);
        
