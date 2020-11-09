@@ -8,10 +8,11 @@
 module.exports = {
 
     format: async function (req, res) {
+        const colors = require('colors');
         console.log("");
         console.log("------------------------------------------");
         console.log("");
-        
+
         const performance = require('perf_hooks').performance;
         var a = performance.now();
 
@@ -24,8 +25,15 @@ module.exports = {
 
         formatter.result = response;
         // formatter.UA = req.get('User-Agent');
-        formatter.time = 'Execution time ' + (b - a) / 1000.0 + ' S.';
-        formatter.date = new Date();
+
+        var now = new Date();
+        console.log(colors.yellow(now));
+        var execTime = (b - a) / 1000.0
+        if(execTime > 1) execTime = console.log('Execution time ' +colors.red(execTime)+ ' s.');
+        else console.log('Execution time ' +colors.green(execTime)+ ' s.');
+        
+        // formatter.time = 'Execution time ' + execTime + ' S.';
+        // formatter.date = new Date();
         console.log(formatter);
         return res.send({type: formatter.type, result: response});
     },
