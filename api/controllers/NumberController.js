@@ -227,6 +227,32 @@ module.exports = {
             return val;
         });
 
+        parser.setFunction('SUBSTITUTE', function(params) {
+            if (params.length < 2) {
+                return '#Error';
+            }
+
+            text = params[0], old_text = params[1], new_text = params[2], occurrence = parseInt(params[3]);
+
+            if(isNaN(occurrence)) occurrence = undefined;
+
+            if (!text || !old_text || !new_text) {
+                return text;
+              } else if (occurrence === undefined) {
+                return text.replace(new RegExp(old_text, 'g'), new_text);
+              } else {
+                var index = 0;
+                var i = 0;
+                while (text.indexOf(old_text, index) > 0) {
+                  index = text.indexOf(old_text, index + 1);
+                  i++;
+                  if (i === occurrence) {
+                    return text.substring(0, index) + new_text + text.substring(index + old_text.length);
+                  }
+                }
+              }
+        });
+
         /**IFS End */
         
         var response = parser.parse(data.formula);
@@ -234,6 +260,6 @@ module.exports = {
         if(response.error !== null) return data.formula;
 
         return response.result;
-    }
+    },
 };
 
