@@ -9,32 +9,29 @@ module.exports = {
   
 
     format: async function (req, res) {
-        const colors = require('colors');
-        console.log("");
-        console.log("------------------------------------------");
-        console.log("");
+        // const colors = require('colors');
+        // console.log("");
+        // console.log("------------------------------------------");
+        // console.log("");
 
-        const performance = require('perf_hooks').performance;
-        var a = performance.now();
+        // const performance = require('perf_hooks').performance;
+        // var a = performance.now();
 
         var formatter = req.body;
         
         if (typeof module.exports[formatter.type] !== 'function') return res.badRequest();
         var response =  module.exports[formatter.type](formatter.data);
         
-        var b = performance.now();
+        // var b = performance.now();
 
         formatter.result = response;
-        // formatter.UA = req.get('User-Agent');
-        var now = new Date();
-        console.log(colors.yellow(now));
-        var execTime = (b - a) / 1000.0
-        if(execTime > 1) execTime = console.log('Execution time ' +colors.red(execTime)+ ' s.');
-        else console.log('Execution time ' +colors.green(execTime)+ ' s.');
 
-        // formatter.time = 'Execution time ' + (b - a) / 1000.0 + ' S.';
-        // formatter.date = new Date();
-        console.log(formatter);
+        // var now = new Date();
+        // console.log(colors.yellow(now));
+        // var execTime = (b - a) / 1000.0
+        // if(execTime > 1) execTime = console.log('Execution time ' +colors.red(execTime)+ ' s.');
+        // else console.log('Execution time ' +colors.green(execTime)+ ' s.');
+        // console.log(formatter);
 
         return res.send({type: formatter.type, result: response});
     },
