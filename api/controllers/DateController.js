@@ -98,9 +98,9 @@ module.exports = {
      */
     formatDate(data) {
 
-        var valid = module.exports.validate(data, ['date', 'toFormat']);
+        var valid = module.exports.validate(data, ['date']);
         if(!valid.status) return valid;
-        data = module.exports.optional(data, ['fromZone', 'toZone'], ['UTC', 'UTC']);
+        data = module.exports.optional(data, ['toFormat', 'fromZone', 'toZone'], ['', 'UTC', 'UTC']);
 
         var moment = require('moment-timezone');//https://www.npmjs.com/package/moment-timezone
         var server_offset = false;
